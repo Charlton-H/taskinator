@@ -60,8 +60,8 @@ function taskFormHandler(event) {
 }
 
 function createTaskEl(taskDataObj) {
-  console.log(taskDataObj);
-  console.log(taskDataObj.status);
+  // console.log(taskDataObj);
+  // console.log(taskDataObj.status);
 
   // create list item
   var listItemEl = document.createElement("li");
@@ -98,6 +98,8 @@ function createTaskEl(taskDataObj) {
 
   // increase task counter for next unique id
   taskIdCounter++;
+
+  saveTasks();
 }
 
 function createTaskActions(taskId) {
@@ -165,6 +167,8 @@ function completeEditTask(taskName, taskType, taskId) {
   formEl.removeAttribute("data-task-id");
   // update formEl button to go back to saying "Add Task" instead of "Edit Task"
   document.querySelector("#save-task").textContent = "Add Task";
+
+  saveTasks();
 }
 
 function taskButtonHandler(event) {
@@ -184,9 +188,9 @@ function taskButtonHandler(event) {
 }
 
 function taskStatusChangeHandler(event) {
-  console.log(event.target);
-  console.log(event.target.value);
-  console.log(event.target.getAttribute("data-task-id"));
+  // console.log(event.target);
+  // console.log(event.target.value);
+  // console.log(event.target.getAttribute("data-task-id"));
 
   // get the task item's id
   var taskId = event.target.getAttribute("data-task-id");
@@ -211,12 +215,14 @@ function taskStatusChangeHandler(event) {
     if (tasks[i].id === parseInt(taskId)) {
       tasks[i].status = statusValue;
     }
-    console.log(tasks);
+    // console.log(tasks);
   }
+
+  saveTasks();
 }
 
 function editTask(taskId) {
-  console.log("editing task #" + taskId);
+  // console.log("editing task #" + taskId);
   // get task list item element
   var taskSelected = document.querySelector(
     ".task-item[data-task-id='" + taskId + "']"
@@ -234,7 +240,7 @@ function editTask(taskId) {
 }
 
 function deleteTask(taskId) {
-  console.log(taskId);
+  // console.log(taskId);
   // find task list element with taskId value and remove it
   var taskSelected = document.querySelector(
     ".task-item[data-task-id='" + taskId + "']"
@@ -255,4 +261,9 @@ function deleteTask(taskId) {
 
   //reassign tasks array to be the same as updatedTaskArr
   tasks = updatedTaskArr;
+  saveTasks();
+}
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
